@@ -14,7 +14,7 @@ import {
 import { Response } from 'express';
 
 interface CountryParameters {
-  country: string;
+  cat: string;
 }
 
 @Controller({ host: 'admin.example.com' }) // Requests made from this host will use the AdminController class
@@ -25,11 +25,11 @@ export class AdminController {
   }
 }
 
-@Controller('hello-world') // Basic controller
-export class HelloWorldController {
-  @Get() // Tells Nest to create a handler for a specific endpoint for HTTP Requests. GET /hello-world
+@Controller('cats') // Basic controller
+export class CatsController {
+  @Get() // Tells Nest to create a handler for a specific endpoint for HTTP Requests. GET /cats
   helloWorld(): string {
-    return 'Hello World';
+    return 'Hello cats';
   }
 
   @Get('all')
@@ -41,21 +41,16 @@ export class HelloWorldController {
   @Get('bye')
   @HttpCode(418) // Indicate specific httpCode
   byeWorld(): string {
-    return 'Bye World';
+    return 'Bye cats';
   }
 
-  @Get('time')
-  getActualTime(): string {
-    return 'This should return the actual time but instead it returns this beautifull text';
-  }
-
-  @Get('country')
+  @Get('type')
   getCountry(@Query(ValidationPipe) query: CountryParameters): string {
     // npm i class-validator class-transformer to use ValidationPipe
-    const { country } = query;
+    const { cat } = query;
 
-    // As we are doing a hello-world app, we will not check if we indeed have a country in req.query
-    return country ?? 'No country sent';
+    // As we are doing a cats app, we will not check if we indeed have a cat in req.query
+    return cat ?? 'No cat sent';
   }
 
   @Get('destroy')
@@ -64,12 +59,12 @@ export class HelloWorldController {
 
   @Get(':id')
   findOne(@Param() params: { id: number }): string {
-    return `This action returns a #${params.id} world`;
+    return `This action returns a #${params.id} cat`;
   }
 
   @Post()
   @Header('Cache-Control', 'none')
   create() {
-    return 'This action adds a new world';
+    return 'This action adds a new cat';
   }
 }
